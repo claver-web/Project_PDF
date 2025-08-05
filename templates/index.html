@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-group input[type="file"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #3e8e41;
+        }
+        a{
+            color: #3e8e41;
+        }
+    </style>
+    <title>File Upload</title>
+</head>
+<body>
+    <div class="container">
+        <h2>File Upload</h2>
+        <form id="upload-form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Select a file:</label>
+                <input type="file" id="file" name="file" required>
+            </div>
+            <div class="form-group">
+                <label for="page-number">Page number:</label>
+                <input type="number" id="page-number" name="pages" required>
+            </div>
+            <button type="submit" class="btn">Upload</button>
+        </form>
+        <br>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('upload-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('http://127.0.0.1:8000/uploadfile/', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = "output.pdf"
+                    a.textContent = 'Download PDF'; // add text to the link
+                    const container = document.getElementById('response')
+                    container.appendChild(a)
+                    a.addEventListener('click', (err,res) => {
+                        a.click()
+                    })
+                })
+                .catch(error => console.error('Error:', error));
+            } catch (error) {
+                console.error(error);
+                document.getElementById('response').innerHTML = `Error uploading file`;
+            }
+        });
+    </script>
+</body>
+</html>
