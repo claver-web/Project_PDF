@@ -1,9 +1,6 @@
-aiofiles==24.1.0
 fastapi==0.116.1
-fastjsonschema @ file:///io/buildout/croot/python-fastjsonschema_1735874150137/work
 fpdf==1.7.2
 Jinja2 @ file:///croot/jinja2_1741710844255/work
 PyPDF2==3.0.1
-python-dotenv==1.1.1
 python-multipart==0.0.20
 uvicorn==0.35.0
