@@ -3,3 +3,4 @@ fpdf==1.7.2
 PyPDF2==3.0.1
 python-multipart==0.0.20
 uvicorn==0.35.0
+aiofiles
