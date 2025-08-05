@@ -1,78 +1,9 @@
 aiofiles==24.1.0
-anaconda-anon-usage @ file:///croot/anaconda-anon-usage_1749054771823/work
-annotated-types @ file:///work/perseverance-python-buildout/croot/annotated-types_1728386958747/work
-anyio @ file:///croot/anyio_1745334642479/work
-archspec @ file:///croot/archspec_1709217642129/work
-argon2-cffi @ file:///opt/conda/conda-bld/argon2-cffi_1645000214183/work
-argon2-cffi-bindings @ file:///croot/argon2-cffi-bindings_1736182440035/work
-asttokens @ file:///croot/asttokens_1743630435401/work
-async-lru @ file:///work/perseverance-python-buildout/croot/async-lru_1728387726672/work
-attrs @ file:///croot/attrs_1734533101012/work
-babel @ file:///croot/babel_1737454360933/work
-beautifulsoup4 @ file:///work/perseverance-python-buildout/croot/beautifulsoup4-split_1728385754779/work
-bleach @ file:///io/buildout/croot/bleach_1732918169505/work
-boltons @ file:///croot/boltons_1737061692168/work
-Brotli @ file:///croot/brotli-split_1736182456865/work
-certifi @ file:///croot/certifi_1750863846190/work/certifi
-cffi @ file:///croot/cffi_1736182485317/work
-charset-normalizer @ file:///croot/charset-normalizer_1721748349566/work
-click==8.2.1
-debugpy @ file:///croot/debugpy_1736267418885/work
-decorator @ file:///opt/conda/conda-bld/decorator_1643638310831/work
 fastapi==0.116.1
 fastjsonschema @ file:///io/buildout/croot/python-fastjsonschema_1735874150137/work
-fonttools==4.58.5
 fpdf==1.7.2
-frozendict @ file:///work/perseverance-python-buildout/croot/frozendict_1728497542215/work
-h11 @ file:///croot/h11_1748442006460/work
-httpcore @ file:///croot/httpcore_1748526048470/work
-httpx @ file:///croot/httpx_1746747840559/work
-idna @ file:///work/perseverance-python-buildout/croot/idna_1728385935861/work
-imageio==2.37.0
-imageio-ffmpeg==0.6.0
-importlib_metadata @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_importlib-metadata_1747934053/work
-ipykernel @ file:///croot/ipykernel_1737660677549/work
-ipython @ file:///croot/ipython_1744912971218/work
-ipython_pygments_lexers @ file:///croot/ipython_pygments_lexers_1744753235686/work
-ipywidgets @ file:///io/buildout/croot/ipywidgets_1735843964234/work
-jedi @ file:///croot/jedi_1733987392413/work
 Jinja2 @ file:///croot/jinja2_1741710844255/work
-joblib==1.5.1
-json5 @ file:///io/perseverance-python-buildout/croot/json5_1731701245495/work
-jsonpatch @ file:///work/perseverance-python-buildout/croot/jsonpatch_1728399595941/work
-jsonpointer==2.1
-jsonschema @ file:///io/perseverance-python-buildout/croot/jsonschema_1731700598024/work
-jsonschema-specifications @ file:///io/perseverance-python-buildout/croot/jsonschema-specifications_1731700488901/work
-kiwisolver==1.4.8
-libmambapy @ file:///croot/mamba-split_1734469461757/work/libmambapy
-markdown-it-py @ file:///work/perseverance-python-buildout/croot/markdown-it-py_1728387994477/work
-MarkupSafe @ file:///croot/markupsafe_1738584038848/work
-matplotlib==3.10.3
-matplotlib-inline @ file:///io/buildout/croot/matplotlib-inline_1732912690718/work
-mdurl @ file:///work/perseverance-python-buildout/croot/mdurl_1728387286143/work
-menuinst @ file:///croot/menuinst_1738943416351/work
-mistune @ file:///croot/mistune_1741124011532/work
-moviepy==2.2.1
-nbclient @ file:///croot/nbclient_1741123995822/work
-nbconvert @ file:///croot/nbconvert-meta_1741184653315/work
-nbformat @ file:///work/perseverance-python-buildout/croot/nbformat_1728385580878/work
-nest_asyncio @ file:///work/perseverance-python-buildout/croot/nest-asyncio_1728387361665/work
-prompt_toolkit @ file:///work/perseverance-python-buildout/croot/prompt-toolkit_1728511366266/work
-psutil @ file:///croot/psutil_1736367091698/work
-ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
-pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
-pycosat @ file:///croot/pycosat_1736868416091/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
-pydantic @ file:///croot/pydantic_1734736067156/work
-pydantic_core @ file:///croot/pydantic-core_1734726052986/work
-Pygments @ file:///croot/pygments_1744664109463/work
-pyparsing==3.2.3
 PyPDF2==3.0.1
-PyQt6==6.7.1
-PyQt6_sip @ file:///croot/pyqt-split_1744804475988/work/pyqt_sip
-PySocks @ file:///work/perseverance-python-buildout/croot/pysocks_1728386193338/work
-python-dateutil @ file:///work/perseverance-python-buildout/croot/python-dateutil_1728385355105/work
 python-dotenv==1.1.1
-python-json-logger @ file:///croot/python-json-logger_1734370021104/work
 python-multipart==0.0.20
 uvicorn==0.35.0
