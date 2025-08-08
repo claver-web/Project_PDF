@@ -1,43 +1,68 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Form, Request
-from fastapi.responses import FileResponse, StreamingResponse
-from fastapi.templating import Jinja2Templates
-
-from pydantic import BaseModel
-from PDFSpliting import Pdf_Reader
-
-# for saving the file that came from the client
+import os
 import aiofiles
+from fastapi import FastAPI, File, UploadFile, Form, Request,HTTPException
+from fastapi.responses import FileResponse
+from fastapi.templating import Jinja2Templates
+from Services.PDFSpliting import Pdf_Reader
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "PdfFileStorage")
+OUTPUT_FOLDER = os.path.join(BASE_DIR, "OutputPdfFiles")
+
+# Mount the /static path to serve files from the static/ folder
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 @app.get("/")
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-#Using post method for saving the files that came from client
 @app.post("/uploadfile/")
 async def create_upload_file(pages: int = Form(...), file: UploadFile = File(...)):
-    print(pages, file.filename)
     
-    if file.content_type != "application/pdf":
-        raise HTTPException(status_code=400, detail="Invalid file type")
+    # Step 1: Save uploaded file
+    saved_path = os.path.join(OUTPUT_FOLDER, file.filename)
     
-    # if file.size > 1024 * 1024:  # 1MB
-    #     raise HTTPException(status_code=400, detail="File too large")
+    # Step 2: send Info for get Pages
+    isFill = Pdf_Reader(file.file, [pages], f"OutputPdfFiles/{os.path.splitext(file.filename)[0]}_{pages}.pdf")
+
+    # Step 3: Return processed file if successful
+    if isFill is True:
+        
+        return FileResponse(
+            path=f"OutputPdfFiles/{os.path.splitext(file.filename)[0]}_{pages}.pdf",
+            media_type="application/pdf",
+            filename=f"OutputPdfFiles/{os.path.splitext(file.filename)[0]}_{pages}.pdf"
+        )
+
+    return {"status": "failed"}
+
+
+@app.post("/MultipleUploadfiles/")
+async def create_upload_file(
+    fromPageNumber: int = Form(...), 
+    toPageNumber: int = Form(...),
+    file: UploadFile = File(...) ):
     
-    async with aiofiles.open(file.filename, mode="wb") as f:
-        await f.write(await file.read())
+    # Step 1: Save uploaded file
+    # saved_path = os.path.join(OUTPUT_FOLDER, file.filename)
+    
+    # # Step 2: send Info for get Pages
+    isFill = Pdf_Reader(file.file, [fromPageNumber, toPageNumber], f"OutputPdfFiles/{os.path.splitext(file.filename)[0]}_{fromPageNumber}.pdf")
+
+    # # Step 3: Return processed file if successful
+    if isFill is True:
         
-        isFill = Pdf_Reader(file.filename, [1], 'output.pdf')
-        
-        if isFill == True:
-            #If file is large than use this 
-            async def file_stream():
-                async with aiofiles.open(file_path, mode="rb") as file:
-                    while chunk := await file.read(1024 * 1024):
-                        yield chunk
-                        
-            return FileResponse('output.pdf', media_type="application/pdf")
-        
-        return {"filename": isFill}
+        return FileResponse(
+            path=f"OutputPdfFiles/{os.path.splitext(file.filename)[0]}_{fromPageNumber}.pdf",
+            media_type="application/pdf",
+            filename=f"OutputPdfFiles/{os.path.splitext(file.filename)[0]}_{fromPageNumber}.pdf"
+        )
+    return {"status": "failed"}
+
+    # return {"status": "failed"}

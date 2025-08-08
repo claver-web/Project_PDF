@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background-color: #0e0c0c;
+            color: white;
         }
         .container {
+            text-align: center;
             max-width: 500px;
             margin: 40px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #000c74;
             border: 1px solid #ddd;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -49,56 +49,87 @@
         a{
             color: #3e8e41;
         }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
     </style>
     <title>File Upload</title>
 </head>
 <body>
+
+    <div style="text-align: center;">
+        <h1>Sasta PDF Editor</h1>
+
+    </div>
+
+    <!-- First Opration on PDF -->
     <div class="container">
         <h2>File Upload</h2>
-        <form id="upload-form" enctype="multipart/form-data">
+        <form id="upload-form-first" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="file">Select a file:</label>
-                <input type="file" id="file" name="file" required>
+                <input type="file" id="file" name="file" required="">
             </div>
             <div class="form-group">
-                <label for="page-number">Page number:</label>
-                <input type="number" id="page-number" name="pages" required>
+                <label for="page-number">From Page number:</label>
+                <input type="number" id="page-number" min="1" name="pages" required="">
             </div>
             <button type="submit" class="btn">Upload</button>
         </form>
+
+        <!-- Loading Spinner -->
+        <div id="loading" style="display:none;">
+            <div class="spinner"></div>
+            <p>Processing your file...</p>
+        </div>
         <br>
         <div id="response"></div>
     </div>
 
-    <script>
-        const form = document.getElementById('upload-form');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(form);
-            try {
-                const response = await fetch('http://127.0.0.1:8000/uploadfile/', {
-                    method: 'POST',
-                    body: formData,
-                })
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = "output.pdf"
-                    a.textContent = 'Download PDF'; // add text to the link
-                    const container = document.getElementById('response')
-                    container.appendChild(a)
-                    a.addEventListener('click', (err,res) => {
-                        a.click()
-                    })
-                })
-                .catch(error => console.error('Error:', error));
-            } catch (error) {
-                console.error(error);
-                document.getElementById('response').innerHTML = `Error uploading file`;
-            }
-        });
-    </script>
-</body>
-</html>
+    <!-- Second Opration on PDF -->
+    <div class="container">
+        <h2>Enter the Range of of PDF File</h2>
+        <form id="upload-form-second" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Select a file:</label>
+                <input type="file" id="file" name="file" required="">
+            </div>
+            <div class="form-group">
+                <label for="page-number">From Page number:</label>
+                <input type="number" id="from_page-number" min="1" name="fromPageNumber" required="">
+            </div>
+
+            <div class="form-group">
+                <label for="page-number">To Page number:</label>
+                <input type="number" id="to_page-number" min="1" name="toPageNumber" required="">
+            </div>
+
+            <button type="submit" class="btn">Upload</button>
+        </form>
+        <br>
+        <div id="response_second"></div>
+    </div>
+
+    <script src="../static/JSFiles/FirstOprationOnPdf.js"></script>
+    <script src="../static/JSFiles/SecondOprationOnPdf.js"></script>
+
+</body></html>
