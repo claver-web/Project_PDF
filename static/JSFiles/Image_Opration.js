@@ -22,7 +22,7 @@ img_data.addEventListener("submit", async(e) => {
     console.log("Returned: ",data)
 
     try {
-        const response = await fetch('https://project-pdf-8ve3.onrender.com//edit_image/', {
+        const response = await fetch('https://project-pdf-8ve3.onrender.com/edit_image/', {
             method: 'POST',
             body: formData
         })
