@@ -1,10 +1,12 @@
 import os
-import aiofiles
+import shutil
 from fastapi import FastAPI, File, UploadFile, Form, Request,HTTPException
 from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
-from Services.PDFSpliting import Pdf_Reader
 from fastapi.staticfiles import StaticFiles
+
+from Services.ImageResizing import image_resize
+from Services.PDFSpliting import Pdf_Reader
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -21,6 +23,10 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 @app.get("/")
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/Image_editor/")
+async def read_root(request: Request):
+    return templates.TemplateResponse("Image_Editor.html", {"request": request})
 
 @app.post("/uploadfile/")
 async def create_upload_file(pages: int = Form(...), file: UploadFile = File(...)):
@@ -52,10 +58,10 @@ async def create_upload_file(
     # Step 1: Save uploaded file
     # saved_path = os.path.join(OUTPUT_FOLDER, file.filename)
     
-    # # Step 2: send Info for get Pages
+    #Step 2: send Info for get Pages
     isFill = Pdf_Reader(file.file, [fromPageNumber, toPageNumber], f"OutputPdfFiles/{os.path.splitext(file.filename)[0]}_{fromPageNumber}.pdf")
 
-    # # Step 3: Return processed file if successful
+    #Step 3: Return processed file if successful
     if isFill is True:
         
         return FileResponse(
@@ -65,4 +71,34 @@ async def create_upload_file(
         )
     return {"status": "failed"}
 
-    # return {"status": "failed"}
+
+@app.post("/edit_image/")
+async def edit_image_proccess(
+    imag_file: UploadFile = File(...),
+    height: int = Form(...),
+    width: int = Form(...)
+):
+    # Save uploaded file
+    save_path = os.path.join(BASE_DIR, "img_save", imag_file.filename)
+    with open(save_path, "wb") as buffer:
+        shutil.copyfileobj(imag_file.file, buffer)
+
+    # Resize and get path to resized image
+    resized_path = image_resize(save_path, height, width)
+
+    # Send resized file back
+    return FileResponse(
+        path=resized_path,
+        media_type="image/jpeg",
+        filename=os.path.basename(resized_path)  # Optional download filename
+    )
+
+@app.get('/remove_files/')
+def remove_files():
+    folder_path = ["img_save", "OutputPdfFiles"]
+    extensions = (".jpg", ".jpeg", ".png", ".pdf")
+
+    for filename in os.listdir(folder_path):
+
+       if filename.lower().endswith(extensions):
+            os.remove(os.path.join(folder_path, filename))
