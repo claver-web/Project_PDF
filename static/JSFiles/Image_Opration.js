@@ -1,6 +1,7 @@
 const img_data = document.getElementById('upload-form-img');
 const loading2 = document.getElementById('loading2');
 
+
 function getResizedFileName(picPath) {
     // Get just the filename, remove any query strings
     let dotIndex = picPath.lastIndexOf('.');
@@ -28,7 +29,6 @@ img_data.addEventListener("submit", async(e) => {
         })
         .then(response => response.blob())
         .then(blob => {
-            console.log(blob)
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;

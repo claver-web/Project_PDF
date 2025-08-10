@@ -5,11 +5,21 @@ from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
+from fastapi.middleware.cors import CORSMiddleware
+
 from Services.ImageResizing import image_resize
 from Services.PDFSpliting import Pdf_Reader
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",          # or ["*"] to allow all
+    allow_credentials=True,
+    allow_methods=["*"],            # ["GET", "POST", "PUT"] for specific methods
+    allow_headers=["*"],            # Allow all headers
+)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "PdfFileStorage")
