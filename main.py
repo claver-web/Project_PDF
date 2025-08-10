@@ -14,9 +14,7 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
 origins = [
-    "http://127.0.0.1:8000",                # Local dev
-    "https://fornt-end-pdf.vercel.app",
-    "https://project-pdf-8ve3.onrender.com"    # Render frontend
+    "https://fornt-end-pdf.vercel.app"
 ]
 
 app.add_middleware(
@@ -66,7 +64,12 @@ async def create_upload_file(pages: int = Form(...), file: UploadFile = File(...
 
 @app.options("/edit_image/")
 async def cors_preflight():
-    return JSONResponse(content={"status": "ok"})
+    response = JSONResponse(content={"status": "ok"})
+    response.headers["Access-Control-Allow-Origin"] = "https://fornt-end-pdf.vercel.app"
+    response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
 
 
 @app.post("/MultipleUploadfiles/")
@@ -107,11 +110,16 @@ async def edit_image_proccess(
     resized_path = image_resize(save_path, height, width)
 
     # Send resized file back
-    return FileResponse(
+    response =  FileResponse(
         path=resized_path,
         media_type="image/jpeg",
         filename=os.path.basename(resized_path)  # Optional download filename
     )
+
+    response.headers["Access-Control-Allow-Origin"] = "https://fornt-end-pdf.vercel.app"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+
+    return response
 
 @app.get('/remove_files/')
 def remove_files():
