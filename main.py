@@ -13,9 +13,15 @@ from Services.PDFSpliting import Pdf_Reader
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 
+origins = [
+    "http://127.0.0.1:8000",                # Local dev
+    "https://fornt-end-pdf.vercel.app",
+    "https://project-pdf-8ve3.onrender.com"    # Render frontend
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins="*",          # or ["*"] to allow all
+    allow_origins=origins,          # or ["*"] to allow all
     allow_credentials=True,
     allow_methods=["*"],            # ["GET", "POST", "PUT"] for specific methods
     allow_headers=["*"],            # Allow all headers
