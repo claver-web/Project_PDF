@@ -1,7 +1,7 @@
 import os
 import shutil
 from fastapi import FastAPI, File, UploadFile, Form, Request,HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
@@ -63,6 +63,10 @@ async def create_upload_file(pages: int = Form(...), file: UploadFile = File(...
         )
 
     return {"status": "failed"}
+
+@app.options("/edit_image/")
+async def cors_preflight():
+    return JSONResponse(content={"status": "ok"})
 
 
 @app.post("/MultipleUploadfiles/")
